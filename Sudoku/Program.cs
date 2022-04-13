@@ -58,6 +58,12 @@ namespace Sudoku
                             Menu.DisplayError("Unable to perform Undo function...");
                         }
                         break;
+                    case GamePlayChoice.Redo:
+                        if (!gameBoard.TryRedo())
+                        {
+                            Menu.DisplayError("Unable to perform Redo function...");
+                        }
+                        break;
 
                 }
 

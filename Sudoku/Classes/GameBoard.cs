@@ -154,14 +154,28 @@ namespace Sudoku.Classes
             return false;
         }
 
+        ////Bool function to try and redo a move if possible
+        public bool TryRedo()
+        {
+            //If the history cursor isn't 0, so a move has been made
+            if (historyCursor != 0)
+            {
+                //redo the undo
+                historyCursor++;
+
+                gameGrid = (int[,])history[historyCursor].Clone();
+
+                return true;
+            }
+
+            return false;
+        }
+
         //Bool function to see if the Sudoku grid has been successfully completed 
         //public bool TryCompleteGame(int x, int y) 
-
         //{ 
 
         //    //if there are any blank cells, return true, if not then return false (means sudoku is complete) 
-
-
 
         //} 
 
