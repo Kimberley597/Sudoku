@@ -172,12 +172,21 @@ namespace Sudoku.Classes
         }
 
         //Bool function to see if the Sudoku grid has been successfully completed 
-        //public bool TryCompleteGame(int x, int y) 
-        //{ 
+        public bool CheckIfGameComplete()
+        {
+            //if there are any cells with a value of zero, return false as the game has not been completed
+            for (int x = 0; x < gridSize; x++)
+            {
+                for (int y = 0; y < gridSize; y++)
+                {
+                    if (gameGrid[x, y] == 0)
+                        return false;
+                }
+            }
 
-        //    //if there are any blank cells, return true, if not then return false (means sudoku is complete) 
-
-        //} 
+            //If there are no cells equal to zero, then return true (means sudoku is complete!)
+            return true;
+        }
 
 
 

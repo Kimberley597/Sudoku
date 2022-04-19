@@ -9,8 +9,7 @@ namespace Sudoku
 
     class Program
     {
-        // store variables that are part of the game 
-        // like undo, redo, game board - globaly available to entire game loop 
+        // store variables that are part of the game  
         private const int boardSize = 9;
         private static GameBoard gameBoard;
 
@@ -37,8 +36,10 @@ namespace Sudoku
 
                 GamePlayChoice choice = Menu.GamePlayMenu();
 
+                //Switch statement for game play choices
                 switch (choice)
                 {
+                    //Enter Value
                     case GamePlayChoice.EnterValue:
                         ClearAndDrawGameBoard();
                         EnterValue input = Menu.GridInputMenu(boardSize);
@@ -51,13 +52,16 @@ namespace Sudoku
                             }
                         }
                         break;
-
+                    
+                     //Undo
                     case GamePlayChoice.Undo:
                         if (!gameBoard.TryUndo())
                         {
                             Menu.DisplayError("Unable to perform Undo function...");
                         }
                         break;
+                    
+                    //Redo
                     case GamePlayChoice.Redo:
                         if (!gameBoard.TryRedo())
                         {
@@ -65,13 +69,29 @@ namespace Sudoku
                         }
                         break;
 
-                }
+                    //Check if Sudoku is complete
+                    case GamePlayChoice.CheckComplete:
+                        if (!gameBoard.CheckIfGameComplete())
+                        {
+                            Menu.DisplayError("The game is not complete...");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Congratulations - you have completed the Sudoku!");
+                            playing = false;
+                        }
+                        break;
 
-                // first ask what difficulty the user wants 
-                // generate the sudoku board - pass in diffculty parameter, return the game board (design a class to handle game board) 
-                // once got board generated, will have main loop - draw board, ask for inupt, process input, update board, repeat  
+                    //Quit the game
+                    case GamePlayChoice.Quit:
+                        Console.WriteLine("Thank you for playing!");
+                        playing = false;
+                        break;
+                }
             }
         }
+
+        //Function when called, clears previous game play text from the command line and re-draws the Sudoku board
         private static void ClearAndDrawGameBoard()
         {
             //Clear console to improve on clarity 
@@ -79,10 +99,6 @@ namespace Sudoku
 
             //Draw Board 
             gameBoard.DrawBoard();
-        }
-
-        static void InputValue()
-        {
         }
     }
 }

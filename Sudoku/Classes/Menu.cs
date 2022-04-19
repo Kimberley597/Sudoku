@@ -19,7 +19,7 @@ namespace Sudoku.Classes
         EnterValue,
         Undo,
         Redo,
-        Reset,
+        CheckComplete,
         Quit
     }
 
@@ -33,7 +33,7 @@ namespace Sudoku.Classes
 
     static class Menu
     {
-        //Function to check the x and y co-ordinates entered byt the user and the value to see if they are valid 
+        //Function to check the x and y co-ordinates entered by the user and the value to see if they are valid 
         public static EnterValue GridInputMenu(int maxValue)
         {
             EnterValue returnValue = new EnterValue();
@@ -123,7 +123,7 @@ namespace Sudoku.Classes
             Console.WriteLine("1 - Enter a value");
             Console.WriteLine("2 - Undo");
             Console.WriteLine("3 - Redo");
-            Console.WriteLine("4 - Reset");
+            Console.WriteLine("4 - Check to see if the Sudoku is complete");
             Console.WriteLine("5 - Quit");
 
             //Read the user's input 
@@ -139,7 +139,7 @@ namespace Sudoku.Classes
                 case "3":
                     return GamePlayChoice.Redo;
                 case "4":
-                    return GamePlayChoice.Reset;
+                    return GamePlayChoice.CheckComplete;
                 case "5":
                     return GamePlayChoice.Quit;
 
@@ -157,7 +157,7 @@ namespace Sudoku.Classes
             Console.WriteLine("Welcome to this simple command-line Sudoku Game!\n");
             //Ask user to enter a difficulty level 
             Console.WriteLine("Please select a difficulty level below by entering the corresponding number, then press the ENTER key:\n");
-            Console.WriteLine("-> Easy - 1 \n" + "-> Medium - 2\n" + "-> Hard - 3\n");
+            Console.WriteLine("1 - Easy \n" + "2 - Medium \n" + "3 - Hard \n");
 
             //Read user inputted difficulty level 
             string input = Console.ReadLine();
@@ -167,15 +167,15 @@ namespace Sudoku.Classes
             {
                 //Easy 
                 case "1":
-                    return 20;
+                    return 10;
 
                 //Medium 
                 case "2":
-                    return 30;
+                    return 20;
 
                 //Hard 
                 case "3":
-                    return 40;
+                    return 30;
 
                 //If incorrect value entered, asks user to try again - pressing enter to bring back difficulty menu options 
                 default:
