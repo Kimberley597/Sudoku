@@ -42,6 +42,16 @@ namespace Sudoku.Classes
             AddHistory();
         }
 
+        /***************************************************************************************
+        *    Title: GeeksForGeeks Program for Sudoku Generator
+        *    Author: Ankur Trisal
+        *    Date: 12th November 2021
+        *    Code version: <code version>
+        *    Availability: https://www.geeksforgeeks.org/program-sudoku-generator/
+        *    Functions altered and used: AddValues(), AddDiagonal(), NotInBox(), AddBox(), RandomNumberGenerator(), CheckCanAdd(), NotInRow(), NotInCol(), AddRemaining(), RemoveDigits()
+        *
+        ***************************************************************************************/
+
         //Generate Sudoku values 
         public void AddValues()
         {
@@ -102,92 +112,6 @@ namespace Sudoku.Classes
             Random random = new Random();
             return (int)Math.Floor((double)(random.NextDouble() * number + 1));
         }
-
-        //Function to try and add a value entered by the user 
-        public bool TryAddValue(EnterValue value)
-        {
-            if (CheckCanAdd(value.x - 1, value.y - 1, value.value))
-            {
-                gameGrid[value.x - 1, value.y - 1] = value.value;
-                //add to history 
-                AddHistory();
-                return true;
-            }
-
-            return false;
-        }
-
-        //Bool function to try and add a move to the history list 
-        private bool AddHistory()
-        {
-            if (history.Count > 0)
-            {
-                if (historyCursor < history.Count - 1)
-                {
-                    history.RemoveRange(historyCursor + 1, history.Count - historyCursor + 1);
-                }
-            }
-
-            int[,] historyCopy = (int[,])gameGrid.Clone();
-            history.Add(historyCopy);
-            historyCursor = history.Count - 1;
-
-            return true;
-        }
-
-        //Bool function to try and undo a move if possible, reverting to the previous game play state 
-        public bool TryUndo()
-        {
-            //if the history cursor isn't 0, so a move has been made 
-            if (historyCursor != 0)
-            {
-                // revert back to the previous cursor state 
-                historyCursor--;
-
-                //clone the previous game play state 
-                gameGrid = (int[,])history[historyCursor].Clone();
-
-                return true;
-            }
-
-            //if not, return false 
-            return false;
-        }
-
-        ////Bool function to try and redo a move if possible
-        public bool TryRedo()
-        {
-            //If the history cursor isn't 0, so a move has been made
-            if (historyCursor != 0)
-            {
-                //redo the undo
-                historyCursor++;
-
-                gameGrid = (int[,])history[historyCursor].Clone();
-
-                return true;
-            }
-
-            return false;
-        }
-
-        //Bool function to see if the Sudoku grid has been successfully completed 
-        public bool CheckIfGameComplete()
-        {
-            //if there are any cells with a value of zero, return false as the game has not been completed
-            for (int x = 0; x < gridSize; x++)
-            {
-                for (int y = 0; y < gridSize; y++)
-                {
-                    if (gameGrid[x, y] == 0)
-                        return false;
-                }
-            }
-
-            //If there are no cells equal to zero, then return true (means sudoku is complete!)
-            return true;
-        }
-
 
 
         //Bool function to check if the number can be put into a cell 
@@ -288,6 +212,91 @@ namespace Sudoku.Classes
                     gameGrid[x, y] = 0;
                 }
             }
+        }
+
+        //Function to try and add a value entered by the user 
+        public bool TryAddValue(EnterValue value)
+        {
+            if (CheckCanAdd(value.x - 1, value.y - 1, value.value))
+            {
+                gameGrid[value.x - 1, value.y - 1] = value.value;
+                //add to history 
+                AddHistory();
+                return true;
+            }
+
+            return false;
+        }
+
+        //Bool function to try and add a move to the history list 
+        private bool AddHistory()
+        {
+            if (history.Count > 0)
+            {
+                if (historyCursor < history.Count - 1)
+                {
+                    history.RemoveRange(historyCursor + 1, history.Count - historyCursor + 1);
+                }
+            }
+
+            int[,] historyCopy = (int[,])gameGrid.Clone();
+            history.Add(historyCopy);
+            historyCursor = history.Count - 1;
+
+            return true;
+        }
+
+        //Bool function to try and undo a move if possible, reverting to the previous game play state 
+        public bool TryUndo()
+        {
+            //if the history cursor isn't 0, so a move has been made 
+            if (historyCursor != 0)
+            {
+                // revert back to the previous cursor state 
+                historyCursor--;
+
+                //clone the previous game play state 
+                gameGrid = (int[,])history[historyCursor].Clone();
+
+                return true;
+            }
+
+            //if not, return false 
+            return false;
+        }
+
+        ////Bool function to try and redo a move if possible
+        public bool TryRedo()
+        {
+            //If the history cursor isn't 0, so a move has been made
+            if (historyCursor != 0)
+            {
+                //redo the undo
+                historyCursor++;
+
+                gameGrid = (int[,])history[historyCursor].Clone();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        //Bool function to see if the Sudoku grid has been successfully completed 
+        public bool CheckIfGameComplete()
+        {
+            //if there are any cells with a value of zero, return false as the game has not been completed
+            for (int x = 0; x < gridSize; x++)
+            {
+                for (int y = 0; y < gridSize; y++)
+                {
+                    if (gameGrid[x, y] == 0)
+                        return false;
+                }
+            }
+
+            //If there are no cells equal to zero, then return true (means sudoku is complete!)
+            return true;
         }
 
         //Function that 'draws' the board 
